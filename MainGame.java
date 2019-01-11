@@ -24,7 +24,11 @@ public class MainGame {
 		 */
 		int wIntensity = inputPrompt.workIntensity();
 		player.goToWork(wIntensity);
-		//player.dailyOptions();
+		//this is the main part of the game, and where most of your decisions are made
+		while(player.dailyTime > 0) {
+			player.dailyLife(0);
+		}
+		
 	}
 	
 
