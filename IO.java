@@ -14,9 +14,7 @@ public class IO {
 		System.out.println("**********************");
 	}
 	
-	void intensity() {
-		System.out.printf("How intense do you want to work?\n");
-	}
+
 	
 	int workIntensity() {
 		System.out.println("How intense do you want to work today? choose a number "
@@ -31,6 +29,7 @@ public class IO {
 		System.out.println("you're coming back from a hard day's work. you have gained "
 				+ salary * multiplier + " dollars but have lost " + energy*multiplier + " energy");
 	}
+	//whether or not to work an extra shift
 	boolean extraShift() {
 		boolean b = false;
 		System.out.println("Do you want to work an extra shift?, this will reduce "
@@ -50,10 +49,19 @@ public class IO {
 		return b;
 	}
 	
-	void dailyOptions(int time) {
+	String dailyOptions(int time, int dialogue) {
 		System.out.println("The day has just begun!, what do you want to do? you still have " +
 							time + " time slots, use them wisely!");
-		System.out.println("type in the number besides any list item do do that activity");
+		System.out.println("type in the word in astericks to do that actvity");
+		//list of activities, needs expansion...
+		System.out.println("hit the gym and *Exercise*");
+		System.out.println("go to the library and *study*");
+		System.out.println("work on *rocket*, your escape from this hell");
+		System.out.println("go to a restaurant and *eat* some extra meal");
 		
+		String activity = s.nextLine();
+		return activity;
 	}
+	
+
 }

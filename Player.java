@@ -30,7 +30,34 @@ public class Player {
 		
 	}
 	
-	void dailyLife() {
-		inputPrompt.dailyOptions(dailyTime);
+	/*the integer arguement here is just here to get passed around to dailyOptions,
+	 * basically, depending on your situation, it would print out a different dialogue, this would 
+	 * make the dialogues less mechanical and a bit more realistic
+	 * 0: first time coming back from work
+	 * 1 : staying late 
+	 * 2 : player typed name incorrectly
+	 */
+	void dailyLife(int dialogue) {
+		String action = inputPrompt.dailyOptions(dailyTime,dialogue).toLowerCase();
+		switch(action) {
+		case "excersice":	this.excersice();
+							break;
+		case "study":		this.study();
+							break;
+		case "rocket":		this.buildRocket();
+							break;
+		default:	dailyLife(2);
+		}	
+	}
+	void excersice() {
+		
+	}
+	
+	void study() {
+		
+	}
+	
+	void buildRocket() {
+		
 	}
 }
