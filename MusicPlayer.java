@@ -10,10 +10,10 @@ public class MusicPlayer {
 	String musicName;
 	InputStream in;
 	AudioStream audioStream;
-	public void play() throws Exception {
+	public void play(String song) throws Exception {
 			  
 		    // open the sound file as a Java input stream
-		    musicName = "bip.wav";
+		    musicName = song;
 		    in = new FileInputStream(musicName);
 
 		    // create an audiostream from the inputstream

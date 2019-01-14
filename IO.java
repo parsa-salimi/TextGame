@@ -59,6 +59,7 @@ public class IO {
 		System.out.println("work on *rocket*, your escape from this hell");
 		System.out.println("go to a restaurant and *eat* some extra meal");
 		System.out.println("have some *fun*... this opens up a whole list of new options");
+		System.out.println("try performance enhancing *meds*");
 		String activity = s.nextLine();
 		return activity;
 	}
