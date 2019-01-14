@@ -1,8 +1,19 @@
 
 public class Player {
+	final static int EXENERGY = 30;
+	final static int HPFROMEX = 10;
+	
+	final static int STENERGY = 30;
+	
+	final static int RKTENERGY = 30;
+	final static int RKTPTSTOWIN = 20;
+	
+	
+	
 	int physHealth = 80;
 	int mentalHealth = 80;
 	int workEnergy = 10;
+	int rocketPoints = 0;
 	int dailyTime;
 	IO inputPrompt = new IO();
 	
@@ -30,34 +41,65 @@ public class Player {
 		
 	}
 	
-	/*the integer arguement here is just here to get passed around to dailyOptions,
-	 * basically, depending on your situation, it would print out a different dialogue, this would 
-	 * make the dialogues less mechanical and a bit more realistic
-	 * 0: first time coming back from work
-	 * 1 : staying late 
-	 * 2 : player typed name incorrectly
-	 */
-	void dailyLife(int dialogue) {
-		String action = inputPrompt.dailyOptions(dailyTime,dialogue).toLowerCase();
+	void dailyLife() {
+		//get a request from player and return
+		String action = inputPrompt.dailyOptions(dailyTime).toLowerCase();
 		switch(action) {
-		case "excersice":	this.excersice();
+		case "exercise":	this.exercise();
 							break;
 		case "study":		this.study();
 							break;
 		case "rocket":		this.buildRocket();
 							break;
-		default:	dailyLife(2);
+		case "eat":			this.eat();
+							break;
+		default:	dailyLife();
 		}	
 	}
-	void excersice() {
+	
+	void exercise() {
+		boolean success = false;
+		if (this.energy >= EXENERGY) {
+			this.physHealth += HPFROMEX;
+			this.energy -= EXENERGY;
+			success = true;
+		}
 		
+		//output a message depending on weather you have successfully completed the exercise 
+		inputPrompt.excersiceRes(success);
+		inputPrompt.mainInfo(energy, physHealth, mentalHealth, money);
 	}
 	
 	void study() {
+		boolean success = false;
+		if (this.energy >= STENERGY) {
+			this.salary++;
+			this.energy -= STENERGY;
+			success = true;
+		}
 		
+		//output a message depending on weather you have successfully completed the exercise 
+		inputPrompt.studyRes(success);
+		inputPrompt.mainInfo(energy, physHealth, mentalHealth, money);
 	}
 	
 	void buildRocket() {
+		boolean success = false;
+		if (this.energy >= RKTENERGY) {
+			this.rocketPoints++;
+			this.energy -= RKTENERGY;
+			success = true;
+		}
+		inputPrompt.rocketRes(success, RKTPTSTOWIN - rocketPoints);
+		inputPrompt.mainInfo(energy, physHealth, mentalHealth, money);
+	}
+	
+	void eat() {
+		
+	}
+
+	public void maybeSleepLate() {
+		// TODO Auto-generated method stub
 		
 	}
 }

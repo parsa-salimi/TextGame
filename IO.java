@@ -49,7 +49,7 @@ public class IO {
 		return b;
 	}
 	
-	String dailyOptions(int time, int dialogue) {
+	String dailyOptions(int time) {
 		System.out.println("The day has just begun!, what do you want to do? you still have " +
 							time + " time slots, use them wisely!");
 		System.out.println("type in the word in astericks to do that actvity");
@@ -58,10 +58,46 @@ public class IO {
 		System.out.println("go to the library and *study*");
 		System.out.println("work on *rocket*, your escape from this hell");
 		System.out.println("go to a restaurant and *eat* some extra meal");
-		
+		System.out.println("have some *fun*... this opens up a whole list of new options");
 		String activity = s.nextLine();
 		return activity;
 	}
 	
-
+	//result of exercising
+	void excersiceRes(boolean success) {
+		if (success) {
+			System.out.println("You come back from the gym, very tired but also proud, plus, you are feeling so much"
+					+ "healthier right now. Your current stats are: ");
+		}
+		else {
+			System.out.println("you're just so damn tired to go to the gym right now. Well, you can always go home "
+					+ "and watch netflix right? for the record, your stats are: ");
+		}
+	}
+	
+	//result of studying
+	void studyRes(boolean success) {
+		if (success) {
+			System.out.println("whew, that was quite the mental strain. I definately deserve a rest,"
+					+ " and a pay raise!");
+		}
+		else {
+			System.out.println("ugh, who wants to learn about linear transformations on "
+					+ "ginite dimensional vector spaces... when you can just lie down on the couch without "
+					+ "a care in the world. I mean, I'm pretty tired as you can see from here: ");
+		}
+	}
+	
+	//result of building rocket
+	void rocketRes(boolean success, int rocketPoints) {
+		if (success) {
+			System.out.println("without the ministry of love noticing... you have progressed towards building "
+					+ "the ROCKET. now you only need to do this " + rocketPoints + " more times to escape!" );
+		}
+		else {
+			System.out.println("as desperately as you want to get out of here... you just don't have the motivation"
+					+ " to do anything today. i mean, look at how tired you are:  ");
+		}
+	}
+	
 }
