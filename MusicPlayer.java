@@ -27,4 +27,9 @@ public class MusicPlayer {
 	public void stop() throws Exception {
 		AudioPlayer.player.stop(audioStream);
 	}
+
+	public void playMood(int mentalHealth) {
+		// TODO Auto-generated method stub
+		
+	}
 }

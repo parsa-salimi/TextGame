@@ -15,6 +15,8 @@ public class Player {
 	int workEnergy = 10;
 	int rocketPoints = 0;
 	int dailyTime;
+	boolean isAlive = true;
+	
 	IO inputPrompt = new IO();
 	
 	int money = 80;
@@ -53,10 +55,24 @@ public class Player {
 							break;
 		case "eat":			this.eat();
 							break;
-		default:	dailyLife();
+		case "meds":		this.getEnergised();
+							break;
+		case "fun":			this.haveFun();
+							break;
+		default:			dailyLife();
 		}	
 	}
 	
+	private void getEnergised() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void haveFun() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	void exercise() {
 		boolean success = false;
 		if (this.energy >= EXENERGY) {
@@ -97,8 +113,24 @@ public class Player {
 	void eat() {
 		
 	}
+	
 
 	public void maybeSleepLate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void maintenace() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean checkLife() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void die() {
 		// TODO Auto-generated method stub
 		
 	}

@@ -13,19 +13,26 @@ public class MainGame {
 		player = new Player();
 		inputPrompt = new IO();
 		radio = new MusicPlayer();
-		radio.play("bip.wav");
-		game.startGame();
 		inputPrompt.greet(); 
-		
-		
+		//see if the player is alive
+		while(player.checkLife()) {
+			game.startDay();
+			}
+			player.die();
+			game.endGame();
 	}
 	
 
-	
-	private void startGame() throws Exception {
+
+
+
+
+	private void startDay() throws Exception {
 		
 		//initializes daily energy and time slots
 		player.wakeUp();
+		//play a song according to how you feel, i.e your mental health
+		radio.playMood(player.mentalHealth);
 		inputPrompt.mainInfo(player.energy, player.physHealth, player.mentalHealth,
 								player.money);
 		//start daily work
@@ -41,9 +48,16 @@ public class MainGame {
 		}
 		//decide whether or not to sacrifice a few hours of sleep for an extra time slot.
 		player.maybeSleepLate();
+		
+		//Decrease money and mental health levels
+		player.maintenace();
 	}
 	
-
+	
+	private void endGame() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
 
