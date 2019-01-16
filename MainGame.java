@@ -4,6 +4,16 @@ import java.io.InputStream;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 
+
+
+/* TODO : mini game
+ * 		  music
+ * 		  random encounters
+ *        curses
+ *        different dialogues
+ *        mental health depends on different factors
+ *
+ */
 public class MainGame {
 	static Player player;
 	static IO inputPrompt;
@@ -48,7 +58,6 @@ public class MainGame {
 		}
 		//decide whether or not to sacrifice a few hours of sleep for an extra time slot.
 		player.maybeSleepLate();
-		
 		//Decrease money and mental health levels
 		player.maintenace();
 	}

@@ -1,25 +1,36 @@
 
 public class Player {
+	
+	final static int WRKENERGY = 10;
+	
 	final static int EXENERGY = 30;
 	final static int HPFROMEX = 10;
 	
-	final static int STENERGY = 30;
+	final static int STUDYENERGY = 30;
 	
 	final static int RKTENERGY = 30;
 	final static int RKTPTSTOWIN = 20;
+	
+	final static int FOODMONEY = 10;
+	final static int FOODENG = 10;
+	
+	final static int SLEEPDEPRIVED = 10;
+	
+	final static int DAILYSORROW = 5;
+	final static int RENTNSTUFF  = 10;
 	
 	
 	
 	int physHealth = 80;
 	int mentalHealth = 80;
-	int workEnergy = 10;
+	int money = 80;
+	
 	int rocketPoints = 0;
 	int dailyTime;
 	boolean isAlive = true;
 	
 	IO inputPrompt = new IO();
 	
-	int money = 80;
 	int energy;
 	int salary = 5;
 	
@@ -30,15 +41,15 @@ public class Player {
 	
 	void goToWork(int intensity) {
 		this.money += salary + intensity;
-		this.energy -= (workEnergy + intensity * 5);
+		this.energy -= (WRKENERGY + intensity * 5);
 		//decide whether or not to work an extra shift
 		boolean extraWork = inputPrompt.extraShift();
 		if (extraWork) {
 			this.money += salary + intensity;
-			this.energy -= (workEnergy + intensity * 5);
+			this.energy -= (WRKENERGY + intensity * 5);
 			dailyTime--;
 		}
-		inputPrompt.workIsOver(salary + intensity, workEnergy + intensity * 5, extraWork);
+		inputPrompt.workIsOver(salary + intensity, WRKENERGY + intensity * 5, extraWork);
 		inputPrompt.mainInfo(energy, physHealth, mentalHealth, money);
 		
 	}
@@ -63,15 +74,7 @@ public class Player {
 		}	
 	}
 	
-	private void getEnergised() {
-		// TODO Auto-generated method stub
-		
-	}
 
-	private void haveFun() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	void exercise() {
 		boolean success = false;
@@ -88,9 +91,9 @@ public class Player {
 	
 	void study() {
 		boolean success = false;
-		if (this.energy >= STENERGY) {
+		if (this.energy >= STUDYENERGY) {
 			this.salary++;
-			this.energy -= STENERGY;
+			this.energy -= STUDYENERGY;
 			success = true;
 		}
 		
@@ -111,27 +114,51 @@ public class Player {
 	}
 	
 	void eat() {
-		
+		boolean success = false;
+		if (this.money >= FOODMONEY) {
+			this.money -= FOODMONEY;
+			this.energy += FOODENG;
+			success = true;
+		}
+		inputPrompt.eatRes(success, RKTPTSTOWIN - rocketPoints);
+		inputPrompt.mainInfo(energy, physHealth, mentalHealth, money);
 	}
 	
 
 	public void maybeSleepLate() {
+		boolean stayingUp = inputPrompt.sleep();
+		if (stayingUp) {
+			this.physHealth -= SLEEPDEPRIVED;
+			this.dailyLife();
+		}
+	}
+
+	public void maintenace() {
+		this.mentalHealth -= DAILYSORROW;
+		this.money -= RENTNSTUFF;
+		inputPrompt.endDay();
+	}
+	
+	private void getEnergised() {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public void maintenace() {
+	private void haveFun() {
 		// TODO Auto-generated method stub
+		String action = inputPrompt.funActivities(dailyTime).toLowerCase();
 		
 	}
 
 	public boolean checkLife() {
-		// TODO Auto-generated method stub
-		return false;
+		if(this.physHealth <= 0 || this.mentalHealth <= 0 
+				|| this.money <= 0) {
+			this.isAlive = false;
+		}
+		return this.isAlive;
 	}
 
 	public void die() {
-		// TODO Auto-generated method stub
 		
 	}
 }
