@@ -1,8 +1,25 @@
+import java.io.IOException;
 import java.util.Scanner;
+
+import com.googlecode.lanterna.graphics.TextGraphics;
+import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
+import com.googlecode.lanterna.terminal.Terminal;
 
 public class IO {
 	Scanner s = new Scanner(System.in);
-	public void greet() {
+	DefaultTerminalFactory defaultTerminalFactory = new DefaultTerminalFactory();
+    Terminal terminal = null;
+    TextGraphics textGraphics = null;
+    IO() {
+    	try {
+			terminal = defaultTerminalFactory.createTerminal();
+			textGraphics = terminal.newTextGraphics();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+	public void greet() throws IOException {
 		System.out.println("...");
 	}
 	void mainInfo(int energy,int phys,int mental,int money) {

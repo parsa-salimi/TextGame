@@ -13,7 +13,7 @@ public class MainGame {
 		player = new Player();
 		inputPrompt = new IO();
 		radio = new MusicPlayer();
-		radio.play();
+		radio.play("bip.wav");
 		game.startGame();
 		inputPrompt.greet(); 
 		
