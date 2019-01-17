@@ -27,14 +27,13 @@ public class MainGame {
 		//see if the player is alive
 		while(player.checkLife()) {
 			game.startDay();
+			if(player.isWinning) {
+					break;
+				}
 			}
-			player.die();
-			game.endGame();
+		game.endGame(player.isWinning);
 	}
 	
-
-
-
 
 
 	private void startDay() throws Exception {
@@ -54,7 +53,6 @@ public class MainGame {
 		//this is the main part of the game, and where most of your decisions are made
 		while(player.dailyTime > 0) {
 			player.dailyLife();
-			player.dailyTime--;
 		}
 		//decide whether or not to sacrifice a few hours of sleep for an extra time slot.
 		player.maybeSleepLate();
@@ -63,9 +61,10 @@ public class MainGame {
 	}
 	
 	
-	private void endGame() {
+	private void endGame(boolean winning) throws Exception {
 		// TODO Auto-generated method stub
-		
+		radio.stop();
+		inputPrompt.endGame(winning);
 	}
 
 }

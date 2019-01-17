@@ -74,8 +74,6 @@ public class IO {
 		return b;
 	}
 	
-	//the following two methods are practically identical, they display a list of options and return the user's 
-	//result to the caller
 	String dailyOptions(int time) {
 		System.out.println("The day has just begun!, what do you want to do? you still have " +
 							time + " time slots, use them wisely!");
@@ -91,9 +89,14 @@ public class IO {
 		return activity;
 	}
 	
-	public String funActivities(int dailyTime) {
-		String activity = s.nextLine();
-		//walk in the park, cinema, concert,
+	public int funActivities(int money) {
+		System.out.println("how much money do you want to spend?, you currently have " +
+				money + " dollars");
+		int activity = s.nextInt();
+		if (activity >= money) {
+			System.out.println("you don't have that much money, try again");
+			funActivities(money);
+		}
 		return activity;
 	}
 	
@@ -149,13 +152,34 @@ public class IO {
 					+ " to do anything today. i mean, look at how tired you are:  ");
 		}
 	}
-	public void eatRes(boolean success, int i) {
-		// TODO Auto-generated method stub
+	public void eatRes(boolean success) {
+		if (success) {
+			System.out.println("it's good not to starve for a day, and have an actual meal,"
+					+ "I'm feeling so much more motivated now" );
+		}
+		else {
+			System.out.println("i don't even have enough money to eat a proper meal...");
+		}
 		
 	}
 	//TODO different dialogue based on how your day went
 	public void endDay() {
 		System.out.println("the day is over... (update with more meaningful dialogue)");
+	}
+	public void endGame(boolean won) {
+		// TODO improve dialogue
+		if(won) {
+			System.out.println("you have won the game.");
+		}
+		else {
+			System.out.print("you have lost the game");
+		}
+		
+	}
+	
+	public void drugRes() {
+		// TODO Auto-generated method stub
+		
 	}
 
 

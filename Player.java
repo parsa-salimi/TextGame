@@ -14,10 +14,17 @@ public class Player {
 	final static int FOODMONEY = 10;
 	final static int FOODENG = 10;
 	
+	final static int DRUGHEALTH = 10;
+	final static int DRUGENG 	= 20;
+	final static int DRUGMENTAL = 5;
+	
 	final static int SLEEPDEPRIVED = 10;
 	
 	final static int DAILYSORROW = 5;
 	final static int RENTNSTUFF  = 10;
+	
+	final static int FUNHEALTH = 10;
+	
 	
 	
 	
@@ -27,7 +34,12 @@ public class Player {
 	
 	int rocketPoints = 0;
 	int dailyTime;
+	
 	boolean isAlive = true;
+	boolean deathMental = false;
+	boolean deathPhysical = false;
+	boolean isBroke 	= false;
+	boolean isWinning = false;
 	
 	IO inputPrompt = new IO();
 	
@@ -82,8 +94,8 @@ public class Player {
 			this.physHealth += HPFROMEX;
 			this.energy -= EXENERGY;
 			success = true;
+			dailyTime--;
 		}
-		
 		//output a message depending on weather you have successfully completed the exercise 
 		inputPrompt.excersiceRes(success);
 		inputPrompt.mainInfo(energy, physHealth, mentalHealth, money);
@@ -95,6 +107,7 @@ public class Player {
 			this.salary++;
 			this.energy -= STUDYENERGY;
 			success = true;
+			dailyTime--;
 		}
 		
 		//output a message depending on weather you have successfully completed the exercise 
@@ -106,8 +119,12 @@ public class Player {
 		boolean success = false;
 		if (this.energy >= RKTENERGY) {
 			this.rocketPoints++;
+			if(this.rocketPoints == RKTPTSTOWIN) {
+				this.isWinning = true;
+			}
 			this.energy -= RKTENERGY;
 			success = true;
+			dailyTime--;
 		}
 		inputPrompt.rocketRes(success, RKTPTSTOWIN - rocketPoints);
 		inputPrompt.mainInfo(energy, physHealth, mentalHealth, money);
@@ -119,8 +136,9 @@ public class Player {
 			this.money -= FOODMONEY;
 			this.energy += FOODENG;
 			success = true;
+			dailyTime--;
 		}
-		inputPrompt.eatRes(success, RKTPTSTOWIN - rocketPoints);
+		inputPrompt.eatRes(success);
 		inputPrompt.mainInfo(energy, physHealth, mentalHealth, money);
 	}
 	
@@ -140,25 +158,43 @@ public class Player {
 	}
 	
 	private void getEnergised() {
-		// TODO Auto-generated method stub
+		boolean success = false;
+		if (this.physHealth >= DRUGHEALTH) {
+			this.physHealth -= DRUGHEALTH;
+			this.energy += DRUGENG;
+			this.mentalHealth -= DRUGMENTAL;
+			success = true;
+			dailyTime--;
+		}
+		inputPrompt.drugRes();
+		inputPrompt.mainInfo(energy, physHealth, mentalHealth, money);
 		
 	}
 
 	private void haveFun() {
 		// TODO Auto-generated method stub
-		String action = inputPrompt.funActivities(dailyTime).toLowerCase();
+		int action = inputPrompts.funActivities(money);
+		this.money -= action;
+		//has better effect depending on how much money you have spent
+		this.mentalHealth += FUNHEALTH + action;
+		dailyTime--;
 		
 	}
 
 	public boolean checkLife() {
-		if(this.physHealth <= 0 || this.mentalHealth <= 0 
-				|| this.money <= 0) {
-			this.isAlive = false;
+		if(this.physHealth <= 0) {
+			deathPhysical = true;
 		}
+		if(this.mentalHealth <= 0) {
+			deathMental = true;
+		}
+		if(this.money <= 0) {
+			isBroke = true;
+		}
+		
+		//if whichever of these is false, we have lost the game:
+		this.isAlive = !(deathPhysical || deathMental || isBroke);
 		return this.isAlive;
 	}
 
-	public void die() {
-		
-	}
 }
