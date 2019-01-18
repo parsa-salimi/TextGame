@@ -166,14 +166,14 @@ public class Player {
 			success = true;
 			dailyTime--;
 		}
-		inputPrompt.drugRes();
+		inputPrompt.drugRes(success);
 		inputPrompt.mainInfo(energy, physHealth, mentalHealth, money);
 		
 	}
 
 	private void haveFun() {
 		// TODO Auto-generated method stub
-		int action = inputPrompts.funActivities(money);
+		int action = inputPrompt.funActivities(money);
 		this.money -= action;
 		//has better effect depending on how much money you have spent
 		this.mentalHealth += FUNHEALTH + action;

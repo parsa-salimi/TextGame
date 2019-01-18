@@ -1,6 +1,9 @@
 import java.io.IOException;
 import java.util.Scanner;
 
+import com.googlecode.lanterna.TerminalPosition;
+import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
@@ -14,6 +17,9 @@ public class IO {
     	try {
 			terminal = defaultTerminalFactory.createTerminal();
 			textGraphics = terminal.newTextGraphics();
+			//change the text color of the terminal
+		    textGraphics.setForegroundColor(TextColor.ANSI.GREEN);
+		    textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -23,13 +29,26 @@ public class IO {
 		System.out.println("...");
 	}
 	void mainInfo(int energy,int phys,int mental,int money){
+		//clear screen
+		textGraphics.fill(' ');
+		//first arguement is column, second is row
+	
+		textGraphics.putString(1,2,"energy is ");
+		textGraphics.putString(20,2,Integer.toString(energy));
+		//first arguement is topleft position(col,row), second is seize of rectangle(width,height), third is character to fill
+		textGraphics.fillRectangle(new TerminalPosition(25,2), new TerminalSize(energy/2,1), '▬');
 		
-		textGraphics.putString(1,1, "**********************");
-		textGraphics.putString(1,2,"energy is " + energy);
-		textGraphics.putString(1,3,"physical health is " + phys);
-		textGraphics.putString(1,4,"mental health is " + mental);
-		textGraphics.putString(1,5, "money is " + money);
-		textGraphics.putString(1,6,"**********************");
+		textGraphics.putString(1,3,"physical health is ");
+		textGraphics.putString(20,3,Integer.toString(phys));
+		textGraphics.fillRectangle(new TerminalPosition(25,3), new TerminalSize(phys/2,1), '▬');
+		
+		textGraphics.putString(1,4,"mental health is ");
+		textGraphics.putString(20,4,Integer.toString(mental));
+		textGraphics.fillRectangle(new TerminalPosition(25,4), new TerminalSize(mental/2,1), '▬');
+		
+		textGraphics.putString(1,5, "money is ");
+		textGraphics.putString(20,5,Integer.toString(money));
+		textGraphics.fillRectangle(new TerminalPosition(25,5), new TerminalSize(money/2,1), '▬');
 		try {
 			terminal.flush();
 		}
@@ -162,6 +181,17 @@ public class IO {
 		}
 		
 	}
+	
+	public void drugRes(boolean success) {
+		if (success) {
+			System.out.println("amphetamines make me feel so good and alive and energsed and..."
+					+ "I feel like i can do anything now" );
+		}
+		else {
+			System.out.println("If i have any more of these pills i'm gonna be sick...");
+		}
+		
+	}
 	//TODO different dialogue based on how your day went
 	public void endDay() {
 		System.out.println("the day is over... (update with more meaningful dialogue)");
@@ -177,11 +207,5 @@ public class IO {
 		
 	}
 	
-	public void drugRes() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
 	
 }

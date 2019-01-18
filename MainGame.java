@@ -6,10 +6,10 @@ import sun.audio.AudioStream;
 
 
 
-/* TODO : mini game
- * 		  music
+/* TODO :  *mini game
+ * 		   *music
  * 		  random encounters
- *        curses
+ *         *curses
  *        different dialogues
  *        mental health depends on different factors
  *
