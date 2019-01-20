@@ -26,30 +26,48 @@ public class IO {
 		}
     }
 	public void greet() throws IOException {
-		System.out.println("...");
+		printMsg("...");
+	}
+	
+	public void printMsg(String s) {
+		try {
+		char[] strChar = s.toCharArray();
+		for(int i = 0; i < strChar.length; i++) {
+			terminal.putCharacter(strChar[i]);
+		}
+		terminal.putCharacter('\n');
+		terminal.flush();
+		}
+		catch (Exception ex) {
+			
+		}
+		
 	}
 	void mainInfo(int energy,int phys,int mental,int money){
 		//clear screen
-		textGraphics.fill(' ');
 		//first arguement is column, second is row
-	
-		textGraphics.putString(1,2,"energy is ");
-		textGraphics.putString(20,2,Integer.toString(energy));
+		textGraphics.putString(100,2,"energy is ");
+		textGraphics.putString(120,2,Integer.toString(energy));
 		//first arguement is topleft position(col,row), second is seize of rectangle(width,height), third is character to fill
-		textGraphics.fillRectangle(new TerminalPosition(25,2), new TerminalSize(energy/2,1), '▬');
+		textGraphics.fillRectangle(new TerminalPosition(125,2), new TerminalSize(200, 1), ' ');
+		textGraphics.fillRectangle(new TerminalPosition(125,2), new TerminalSize(energy/2,1), '-');
 		
-		textGraphics.putString(1,3,"physical health is ");
-		textGraphics.putString(20,3,Integer.toString(phys));
-		textGraphics.fillRectangle(new TerminalPosition(25,3), new TerminalSize(phys/2,1), '▬');
+		textGraphics.putString(100,3,"physical health is ");
+		textGraphics.putString(120,3,Integer.toString(phys));
+		textGraphics.fillRectangle(new TerminalPosition(125,3), new TerminalSize(200, 1), ' ');
+		textGraphics.fillRectangle(new TerminalPosition(125,3), new TerminalSize(phys/2,1), '-');
 		
-		textGraphics.putString(1,4,"mental health is ");
-		textGraphics.putString(20,4,Integer.toString(mental));
-		textGraphics.fillRectangle(new TerminalPosition(25,4), new TerminalSize(mental/2,1), '▬');
+		textGraphics.putString(100,4,"mental health is ");
+		textGraphics.putString(120,4,Integer.toString(mental));
+		textGraphics.fillRectangle(new TerminalPosition(125,4), new TerminalSize(200, 1), ' ');
+		textGraphics.fillRectangle(new TerminalPosition(125,4), new TerminalSize(mental/2,1), '-');
 		
-		textGraphics.putString(1,5, "money is ");
-		textGraphics.putString(20,5,Integer.toString(money));
-		textGraphics.fillRectangle(new TerminalPosition(25,5), new TerminalSize(money/2,1), '▬');
+		textGraphics.putString(100,5, "money is ");
+		textGraphics.putString(120,5,Integer.toString(money));
+		textGraphics.fillRectangle(new TerminalPosition(125,5), new TerminalSize(200, 1), ' ');
+		textGraphics.fillRectangle(new TerminalPosition(125,5), new TerminalSize(money/2,1), '-');
 		try {
+			terminal.putCharacter('\n');
 			terminal.flush();
 		}
 		catch (IOException ex) {
@@ -61,7 +79,7 @@ public class IO {
 
 	
 	int workIntensity() {
-		System.out.println("How intense do you want to work today? choose a number "
+		printMsg("How intense do you want to work today? choose a number "
 							+ "between 0 and 5");
 		return s.nextInt();
 	}
@@ -70,13 +88,13 @@ public class IO {
 		//if we have worked extra then we have gained double the amount,
 		//so we need to specify this to print the correct values
 		int multiplier = (extraWork) ? 2 : 1;
-		System.out.println("you're coming back from a hard day's work. you have gained "
+		printMsg("you're coming back from a hard day's work. you have gained "
 				+ salary * multiplier + " dollars but have lost " + energy*multiplier + " energy");
 	}
 	//whether or not to work an extra shift
 	boolean extraShift() {
 		boolean b = false;
-		System.out.println("Do you want to work an extra shift?, this will reduce "
+		printMsg("Do you want to work an extra shift?, this will reduce "
 				+ "your energy levels,\n3 and will take up your time, but i will get you money, obviouly"
 				+ " press y/n");
 		String c = s.nextLine();;
@@ -87,33 +105,33 @@ public class IO {
 			b = false;
 		}
 		else {
-			System.out.println("please type in either 'y' or 'n'");
+			printMsg("please type in either 'y' or 'n'");
 			extraShift();
 		}
 		return b;
 	}
 	
 	String dailyOptions(int time) {
-		System.out.println("The day has just begun!, what do you want to do? you still have " +
+		printMsg("The day has just begun!, what do you want to do? you still have " +
 							time + " time slots, use them wisely!");
-		System.out.println("type in the word in astericks to do that actvity");
+		printMsg("type in the word in astericks to do that actvity");
 		//list of activities, needs expansion...
-		System.out.println("hit the gym and *Exercise*");
-		System.out.println("go to the library and *study*");
-		System.out.println("work on *rocket*, your escape from this hell");
-		System.out.println("go to a restaurant and *eat* some extra meal");
-		System.out.println("have some *fun*... this opens up a whole list of new options");
-		System.out.println("try performance enhancing *meds*");
+		printMsg("hit the gym and *Exercise*");
+		printMsg("go to the library and *study*");
+		printMsg("work on *rocket*, your escape from this hell");
+		printMsg("go to a restaurant and *eat* some extra meal");
+		printMsg("have some *fun*... this opens up a whole list of new options");
+		printMsg("try performance enhancing *meds*");
 		String activity = s.nextLine();
 		return activity;
 	}
 	
 	public int funActivities(int money) {
-		System.out.println("how much money do you want to spend?, you currently have " +
+		printMsg("how much money do you want to spend?, you currently have " +
 				money + " dollars");
 		int activity = s.nextInt();
 		if (activity >= money) {
-			System.out.println("you don't have that much money, try again");
+			printMsg("you don't have that much money, try again");
 			funActivities(money);
 		}
 		return activity;
@@ -121,15 +139,15 @@ public class IO {
 	
 	//decide if you want to stay up and get an extra time slot
 	public boolean sleep() {
-		System.out.println("I'm tired... it's getting late. But i don't want to sleep, or should i? ("
+		printMsg("I'm tired... it's getting late. But i don't want to sleep, or should i? ("
 				+ "press y or n)");
 		String query = s.nextLine();
 		if(query.equalsIgnoreCase("y")) {
-			System.out.println("sleep is for the weak... I'm gonna stay up and do what i must");
+			printMsg("sleep is for the weak... I'm gonna stay up and do what i must");
 			return true;
 		}
 		else {
-			System.out.println("obviously i can't even focus tommorow if i stay up this late...");
+			printMsg("obviously i can't even focus tommorow if i stay up this late...");
 			return false;
 		}
 	}
@@ -138,11 +156,11 @@ public class IO {
 	//result of exercising
 	void excersiceRes(boolean success) {
 		if (success) {
-			System.out.println("You come back from the gym, very tired but also proud, plus, you are feeling so much"
+			printMsg("You come back from the gym, very tired but also proud, plus, you are feeling so much"
 					+ "healthier right now. Your current stats are: ");
 		}
 		else {
-			System.out.println("you're just so damn tired to go to the gym right now. Well, you can always go home "
+			printMsg("you're just so damn tired to go to the gym right now. Well, you can always go home "
 					+ "and watch netflix right? for the record, your stats are: ");
 		}
 	}
@@ -150,11 +168,11 @@ public class IO {
 	//result of studying
 	void studyRes(boolean success) {
 		if (success) {
-			System.out.println("whew, that was quite the mental strain. I definately deserve a rest,"
+			printMsg("whew, that was quite the mental strain. I definately deserve a rest,"
 					+ " and a pay raise!");
 		}
 		else {
-			System.out.println("ugh, who wants to learn about linear transformations on "
+			printMsg("ugh, who wants to learn about linear transformations on "
 					+ "finite dimensional vector spaces... when you can just lie down on the couch without "
 					+ "a care in the world. I mean, I'm pretty tired as you can see from here: ");
 		}
@@ -163,43 +181,43 @@ public class IO {
 	//result of building rocket
 	void rocketRes(boolean success, int rocketPoints) {
 		if (success) {
-			System.out.println("without the ministry of love noticing... you have progressed towards building "
+			printMsg("without the ministry of love noticing... you have progressed towards building "
 					+ "the ROCKET. now you only need to do this " + rocketPoints + " more times to escape!" );
 		}
 		else {
-			System.out.println("as desperately as you want to get out of here... you just don't have the motivation"
+			printMsg("as desperately as you want to get out of here... you just don't have the motivation"
 					+ " to do anything today. i mean, look at how tired you are:  ");
 		}
 	}
 	public void eatRes(boolean success) {
 		if (success) {
-			System.out.println("it's good not to starve for a day, and have an actual meal,"
+			printMsg("it's good not to starve for a day, and have an actual meal,"
 					+ "I'm feeling so much more motivated now" );
 		}
 		else {
-			System.out.println("i don't even have enough money to eat a proper meal...");
+			printMsg("i don't even have enough money to eat a proper meal...");
 		}
 		
 	}
 	
 	public void drugRes(boolean success) {
 		if (success) {
-			System.out.println("amphetamines make me feel so good and alive and energsed and..."
+			printMsg("amphetamines make me feel so good and alive and energsed and..."
 					+ "I feel like i can do anything now" );
 		}
 		else {
-			System.out.println("If i have any more of these pills i'm gonna be sick...");
+			printMsg("If i have any more of these pills i'm gonna be sick...");
 		}
 		
 	}
 	//TODO different dialogue based on how your day went
 	public void endDay() {
-		System.out.println("the day is over... (update with more meaningful dialogue)");
+		printMsg("the day is over... (update with more meaningful dialogue)");
 	}
 	public void endGame(boolean won) {
 		// TODO improve dialogue
 		if(won) {
-			System.out.println("you have won the game.");
+			printMsg("you have won the game.");
 		}
 		else {
 			System.out.print("you have lost the game");
