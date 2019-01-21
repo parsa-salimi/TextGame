@@ -1,3 +1,4 @@
+import java.util.Random;
 
 public class Player {
 	
@@ -9,7 +10,7 @@ public class Player {
 	final static int STUDYENERGY = 30;
 	
 	final static int RKTENERGY = 30;
-	final static int RKTPTSTOWIN = 20;
+	final static int RKTPTSTOWIN = 1;
 	
 	final static int FOODMONEY = 10;
 	final static int FOODENG = 10;
@@ -53,6 +54,8 @@ public class Player {
 	void goToWork(int intensity) {
 		this.money += salary + intensity;
 		this.energy -= (WRKENERGY + intensity * 5);
+		//initiate a mini game, might get you extra bonus points
+		int extraSal = inputPrompt.miniGame();
 		//decide whether or not to work an extra shift
 		boolean extraWork = inputPrompt.extraShift();
 		if (extraWork) {
@@ -95,6 +98,9 @@ public class Player {
 			success = true;
 			dailyTime--;
 		}
+		if(physHealth > 100) {
+			physHealth = 100;
+		}
 		//output a message depending on weather you have successfully completed the exercise 
 		inputPrompt.excersiceRes(success);
 		inputPrompt.mainInfo(energy, physHealth, mentalHealth, money);
@@ -109,6 +115,7 @@ public class Player {
 			dailyTime--;
 		}
 		
+		
 		//output a message depending on weather you have successfully completed the exercise 
 		inputPrompt.studyRes(success);
 		inputPrompt.mainInfo(energy, physHealth, mentalHealth, money);
@@ -119,6 +126,7 @@ public class Player {
 		if (this.energy >= RKTENERGY) {
 			this.rocketPoints++;
 			if(this.rocketPoints == RKTPTSTOWIN) {
+				//this then ends the game in he mainGame loop
 				this.isWinning = true;
 			}
 			this.energy -= RKTENERGY;
@@ -136,6 +144,9 @@ public class Player {
 			this.energy += FOODENG;
 			success = true;
 			dailyTime--;
+		}
+		if(energy > 100) {
+			energy = 100;
 		}
 		inputPrompt.eatRes(success);
 		inputPrompt.mainInfo(energy, physHealth, mentalHealth, money);
@@ -165,6 +176,11 @@ public class Player {
 			success = true;
 			dailyTime--;
 		}
+		
+		if(energy > 100) {
+			energy = 100;
+		}
+		
 		inputPrompt.drugRes(success);
 		inputPrompt.mainInfo(energy, physHealth, mentalHealth, money);
 		

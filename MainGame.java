@@ -7,13 +7,13 @@ import sun.audio.AudioStream;
 
 
 /* TODO :  *mini game
- * 		   *music
+ *
  * 		  random encounters
- *         *curses -- kinda dine
+ *  
  *        different dialogues
- *        mental health depends on different factors
- *        SHOULD NOT GO ABOVE 100
- *        CARCH INVALID INPUT
+ *        
+ *
+ *        
  *
  */
 public class MainGame {

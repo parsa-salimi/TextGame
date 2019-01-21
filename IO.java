@@ -5,6 +5,7 @@ import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
+import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 
@@ -32,6 +33,8 @@ public class IO {
 	}
 	//this method in effect replaces System.out.println
 	public void printMsg(String s) {
+	    textGraphics.setForegroundColor(TextColor.ANSI.BLUE);
+	    textGraphics.setBackgroundColor(TextColor.ANSI.WHITE);
 		if(cursorPosition > 100) {
 			//fill the screen with one large rectangle of empty chars, to clear the screen
 			//first arg is coordinates of top left of rectangle, second arg is width/height
@@ -49,6 +52,8 @@ public class IO {
 		}
 		//go to next line, if more than 100 characters move an extra line
 		cursorPosition += (s.length()/100)+1;
+	    textGraphics.setForegroundColor(TextColor.ANSI.GREEN);
+	    textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
 		
 	}
 	void mainInfo(int energy,int phys,int mental,int money){
@@ -90,7 +95,23 @@ public class IO {
 	int workIntensity() {
 		printMsg("How intense do you want to work today? choose a number "
 							+ "between 0 and 5");
-		return s.nextInt();
+		int retVal = 0;
+		try {
+			KeyStroke keyStroke = terminal.readInput();
+			Character buffer = keyStroke.getCharacter();
+			System.out.println(buffer);
+			retVal = Character.getNumericValue(buffer);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return retVal;
+	}
+	
+	//TODO
+	//tells the player to do a simple calculation, in a given amount of time
+	int miniGame() {
+		return 0;
 	}
 	
 	void workIsOver(int salary, int energy, boolean extraWork) {
@@ -104,7 +125,7 @@ public class IO {
 	boolean extraShift() {
 		boolean b = true;
 		printMsg("Do you want to work an extra shift?, this will reduce "
-				+ "your energy levels,\n3 and will take up your time, but i will get you money, obviouly"
+				+ "your energy levels,\n and will take up your time, but it will get you money, obviouly"
 				+ " press y/n");
 		String c = s.nextLine();;
 		if(c.equalsIgnoreCase("y")) {
@@ -150,9 +171,15 @@ public class IO {
 		int activity = s.nextInt();
 		if (activity >= money) {
 			printMsg("you don't have that much money, try again");
-			funActivities(money);
+			return funActivities(money);
 		}
-		return activity;
+		else if (activity < 0) {
+			printMsg("money cannot be negative!, try again");
+			return funActivities(money);
+		}
+		else {
+			return activity;
+		}
 	}
 	
 	//decide if you want to stay up and get an extra time slot
@@ -239,7 +266,19 @@ public class IO {
 	public void endGame(boolean won) {
 		// TODO improve dialogue
 		if(won) {
-			printMsg("you have won the game.");
+			try {
+				terminal.clearScreen();
+			    textGraphics.setForegroundColor(TextColor.ANSI.RED);
+			    textGraphics.setBackgroundColor(TextColor.ANSI.WHITE);
+			    textGraphics.fillRectangle(new TerminalPosition(0,0), new TerminalSize(200, 200), '*');
+			    textGraphics.putString(50, 50, "YOU HAVE WON THE GAME!! THE ROCKET HAS BEEN BUILT!");
+			    
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			printMsg("you have won the game. the ROCKET has been built. ");
 		}
 		else {
 			System.out.print("you have lost the game");
