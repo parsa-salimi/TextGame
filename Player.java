@@ -40,7 +40,6 @@ public class Player {
 	boolean deathPhysical = false;
 	boolean isBroke 	= false;
 	boolean isWinning = false;
-	
 	IO inputPrompt = new IO();
 	
 	int energy;
@@ -178,6 +177,7 @@ public class Player {
 		//has better effect depending on how much money you have spent
 		this.mentalHealth += FUNHEALTH + action;
 		dailyTime--;
+		inputPrompt.mainInfo(energy, physHealth, mentalHealth, money);
 		
 	}
 

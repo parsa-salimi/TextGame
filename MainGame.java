@@ -9,21 +9,20 @@ import sun.audio.AudioStream;
 /* TODO :  *mini game
  * 		   *music
  * 		  random encounters
- *         *curses
+ *         *curses -- kinda dine
  *        different dialogues
  *        mental health depends on different factors
+ *        SHOULD NOT GO ABOVE 100
+ *        CARCH INVALID INPUT
  *
  */
 public class MainGame {
 	static Player player;
-	static IO inputPrompt;
 	static MusicPlayer radio;
 	public static void main(String[] Args) throws Exception {
 		MainGame game = new MainGame();
 		player = new Player();
-		inputPrompt = new IO();
 		radio = new MusicPlayer();
-		inputPrompt.greet(); 
 		//see if the player is alive
 		while(player.checkLife()) {
 			game.startDay();
@@ -42,13 +41,13 @@ public class MainGame {
 		player.wakeUp();
 		//play a song according to how you feel, i.e your mental health
 		radio.playMood(player.mentalHealth);
-		inputPrompt.mainInfo(player.energy, player.physHealth, player.mentalHealth,
+		player.inputPrompt.mainInfo(player.energy, player.physHealth, player.mentalHealth,
 								player.money);
 		//start daily work
 		/*decide how intense you want to work today, more intense means
 		 * more money but also more energy loss
 		 */
-		int wIntensity = inputPrompt.workIntensity();
+		int wIntensity = player.inputPrompt.workIntensity();
 		player.goToWork(wIntensity);
 		//this is the main part of the game, and where most of your decisions are made
 		while(player.dailyTime > 0) {
@@ -64,7 +63,7 @@ public class MainGame {
 	private void endGame(boolean winning) throws Exception {
 		// TODO Auto-generated method stub
 		radio.stop();
-		inputPrompt.endGame(winning);
+		player.inputPrompt.endGame(winning);
 	}
 
 }

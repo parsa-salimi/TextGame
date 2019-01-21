@@ -13,6 +13,8 @@ public class IO {
 	DefaultTerminalFactory defaultTerminalFactory = new DefaultTerminalFactory();
     Terminal terminal = null;
     TextGraphics textGraphics = null;
+    //the IO object keeps the state of the current cursor location, incrementing it every time we print a message
+    int cursorPosition = 2;
     IO() {
     	try {
 			terminal = defaultTerminalFactory.createTerminal();
@@ -26,21 +28,27 @@ public class IO {
 		}
     }
 	public void greet() throws IOException {
-		printMsg("...");
+
 	}
-	
+	//this method in effect replaces System.out.println
 	public void printMsg(String s) {
+		if(cursorPosition > 100) {
+			//fill the screen with one large rectangle of empty chars, to clear the screen
+			//first arg is coordinates of top left of rectangle, second arg is width/height
+			textGraphics.fillRectangle(new TerminalPosition(0,0), new TerminalSize(200,100), ' ');
+			cursorPosition = 2;
+		}
+		textGraphics.putString(2, cursorPosition, s);
 		try {
-		char[] strChar = s.toCharArray();
-		for(int i = 0; i < strChar.length; i++) {
-			terminal.putCharacter(strChar[i]);
-		}
-		terminal.putCharacter('\n');
-		terminal.flush();
-		}
-		catch (Exception ex) {
+			terminal.putCharacter('\n');
+			terminal.flush();
 			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		//go to next line, if more than 100 characters move an extra line
+		cursorPosition += (s.length()/100)+1;
 		
 	}
 	void mainInfo(int energy,int phys,int mental,int money){
@@ -49,6 +57,7 @@ public class IO {
 		textGraphics.putString(100,2,"energy is ");
 		textGraphics.putString(120,2,Integer.toString(energy));
 		//first arguement is topleft position(col,row), second is seize of rectangle(width,height), third is character to fill
+		//fill screen with empty chars to override previous health bars
 		textGraphics.fillRectangle(new TerminalPosition(125,2), new TerminalSize(200, 1), ' ');
 		textGraphics.fillRectangle(new TerminalPosition(125,2), new TerminalSize(energy/2,1), '-');
 		
@@ -93,7 +102,7 @@ public class IO {
 	}
 	//whether or not to work an extra shift
 	boolean extraShift() {
-		boolean b = false;
+		boolean b = true;
 		printMsg("Do you want to work an extra shift?, this will reduce "
 				+ "your energy levels,\n3 and will take up your time, but i will get you money, obviouly"
 				+ " press y/n");
@@ -112,16 +121,25 @@ public class IO {
 	}
 	
 	String dailyOptions(int time) {
-		printMsg("The day has just begun!, what do you want to do? you still have " +
-							time + " time slots, use them wisely!");
-		printMsg("type in the word in astericks to do that actvity");
 		//list of activities, needs expansion...
-		printMsg("hit the gym and *Exercise*");
-		printMsg("go to the library and *study*");
-		printMsg("work on *rocket*, your escape from this hell");
-		printMsg("go to a restaurant and *eat* some extra meal");
-		printMsg("have some *fun*... this opens up a whole list of new options");
-		printMsg("try performance enhancing *meds*");
+		printMsg( "The day has just begun!, what do you want to do? you still have " +
+				time + " time slots, use them wisely!");
+		printMsg("type in the word in astericks to do that actvity\n");
+		textGraphics.putString(100,8,"hit the gym and *Exercise*");
+		textGraphics.putString(100,9,"go to the library and *study*");
+		textGraphics.putString(100,10,"work on *rocket*, your escape from this hell");
+		textGraphics.putString(100,11,"go to a restaurant and *eat* some extra meal");
+		textGraphics.putString(100,12,"have some *fun*... this opens up a whole list of new options");
+		textGraphics.putString(100,13,"try performance enhancing *meds*\n");
+		//the daily options are already printed out in the function "greet", so here we only ask for input.
+		
+		try {
+			terminal.flush();
+			terminal.putCharacter('\n');
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		String activity = s.nextLine();
 		return activity;
 	}
@@ -146,9 +164,13 @@ public class IO {
 			printMsg("sleep is for the weak... I'm gonna stay up and do what i must");
 			return true;
 		}
-		else {
+		else if(query.equalsIgnoreCase("n")) {
 			printMsg("obviously i can't even focus tommorow if i stay up this late...");
 			return false;
+		}
+		else {
+			printMsg("please type in either y or n");
+			return sleep();
 		}
 	}
 
